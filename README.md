@@ -6,3 +6,6 @@ Wire a Arduino Micro with a I2C OLED and 2 buttons, put it in a case
 Push Buttons:
 1. Toggle BAUD rate
 2. Toggle display mode: HEX, BIN or TEXT
+
+I've made a YouTube video about this project (German):
+https://youtu.be/XUHYciV1GeM

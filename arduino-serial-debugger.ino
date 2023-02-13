@@ -1,7 +1,7 @@
 //  Serial Port Debugger/Monitor 
 //  by ma-ha 
 //  Copyright (c) 2023 ma-ha, MIT License
- 
+
 #include <Arduino.h>
 #include <U8g2lib.h>
 
@@ -31,8 +31,8 @@ char mode = DISPLAY_TXT;
 // ============================================================================
 
 void setup(void) {
-  Serial.begin( baud ); 
-
+  Serial.begin( 9600 ); 
+  Serial1.begin( baud ); 
   u8g2.begin();
   u8g2.setFont( u8g2_font_5x8_tf );	
 
@@ -40,10 +40,12 @@ void setup(void) {
     str[i].reserve(25);
     str[i] = "";
   }
-  str[4] = "  SERIAL PORT DEBUGGER";
+  str[4] = "  SERIAL PORT DEBUGGER v2";
   str[3] = "          BY";
   str[2] = "    MAKER GARAGE DE";
   str[0] = "";
+
+  Serial.println( "SERIAL PORT DEBUGGER v2");
 
   // button config
   pinMode( BAUD_PIN, INPUT_PULLUP );
@@ -96,8 +98,8 @@ void writeOLED() {
 
 byte strLen = 0;
 void readStr() {
-  while ( Serial.available() ) {
-    char inChar = (char) Serial.read();
+  while ( Serial1.available() ) {
+    char inChar = (char) Serial1.read();
     
     switch (mode) {
       case DISPLAY_TXT: 
@@ -134,7 +136,7 @@ void readStr() {
 // ============================================================================
 
 void newLine() {
-  //Serial.println( str[0].c_str() );
+  Serial.println( str[0].c_str() );
   for ( byte i = 7; i > 0; i-- ) {
     str[i] = str[i-1];
   }
@@ -157,9 +159,9 @@ void changeBaud() {
   } else if ( baud == 115200 ) {
     baud = 9600;
   }
-  //Serial.println( baud );
-  //Serial.end(); 
-  //Serial.begin( baud ); 
+  Serial1.println( baud );
+  Serial1.end(); 
+  Serial1.begin( baud ); 
   changed = true;
 }
 
